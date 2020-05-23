@@ -28,24 +28,36 @@
           </v-simple-table>
         </v-card>
       </v-container>
-        <v-fab-transition>
-          <v-btn color="pink" dark fixed bottom right fab>
-            <v-icon>mdi-plus</v-icon>
-          </v-btn>
-        </v-fab-transition>
+      <v-fab-transition>
+        <v-btn color="pink" dark fixed bottom right fab @click.stop="dialog = true">
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+      </v-fab-transition>
+      <v-dialog v-model="dialog" persistent max-width="600px">
+        <v-card>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+            <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-content>
+      
   </v-app>
 </template>
 
-<script>
+<script lang="ts">
+import { Component , Vue } from 'vue-property-decorator';
 
-export default {
-  name: 'Home',
-  data: () => ({
-    drawer: null,
-  }),
-  created () {
+@Component
+export default class Home extends Vue{
+
+  private dialog = false;
+
+  private created () {
     this.$vuetify.theme.dark = false
-  },
+  }
+
 }
 </script>
