@@ -24,7 +24,7 @@ import store from "../store";
 export default class Login extends Vue{
 
   private created(){
-    this.$vuetify.theme.dark = true
+    this.$vuetify.theme.dark = false
   }
 
   private mounted()  {

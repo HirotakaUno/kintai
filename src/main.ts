@@ -9,6 +9,7 @@ import vuetify from './plugins/vuetify';
 FirebaseApp.init();
 
 import "firebaseui-ja/dist/firebaseui.css";
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 Vue.config.productionTip = false
 

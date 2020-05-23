@@ -12,6 +12,8 @@
     "firebase": "^7.14.5",
     "firebaseui": "^4.5.0",
     "firebaseui-ja": "^1.0.0",
+    "material-design-icons-iconfont": "^5.0.1",
+    "moment": "^2.26.0",
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
@@ -22,6 +24,8 @@
     "vuex-persistedstate": "^3.0.1"
   },
   "devDependencies": {
+    "@mdi/font": "^5.2.45",
+    "@mdi/js": "^5.2.45",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
     "@vue/cli-plugin-babel": "~4.3.0",
