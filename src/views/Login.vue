@@ -3,11 +3,7 @@
     <v-content>
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
-          <v-col cols="12" sm="8" md="4">
-            <v-card class="elevation-12">
-              <div id="firebaseui-auth-container"></div>
-            </v-card>
-          </v-col>
+          <div id="firebaseui-auth-container"></div>
         </v-row>
       </v-container>
     </v-content>
@@ -37,16 +33,15 @@ export default class Login extends Vue{
       callbacks: {
         signInSuccessWithAuthResult: (authResult) => {
           //console.info(authResult.user.uid);
-          this.$router.push('/home');
+          this.$router.push('/');
           store.commit('onAuthStateChanged',authResult.user);
           store.commit('onUserStatusChanged',authResult.user.uid? true:false);
           return false;
         },
       },
-      signInSuccessUrl : "http://localhost:8080/",
       signInOptions: [
         // サポートするプロバイダを指定
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebase.auth.EmailAuthProvider.PROVIDER_ID,
       ],
       // Terms of service url.(サービス利用規約ページの)
       tosUrl: '',
