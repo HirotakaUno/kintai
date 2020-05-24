@@ -19,4 +19,7 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Firebase files
 src/plugins/firebaseApp.ts
+.firebase/*

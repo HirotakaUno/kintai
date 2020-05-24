@@ -37,7 +37,7 @@ export default class Login extends Vue{
       callbacks: {
         signInSuccessWithAuthResult: (authResult) => {
           //console.info(authResult.user.uid);
-          this.$router.push('/');
+          this.$router.push('/home');
           store.commit('onAuthStateChanged',authResult.user);
           store.commit('onUserStatusChanged',authResult.user.uid? true:false);
           return false;

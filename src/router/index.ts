@@ -9,12 +9,24 @@ import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
-  const routes: Array<RouteConfig> = [
+const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Home',
     component: Home,
     meta: { requiresAuth: true },
+    children: [
+      {
+        path: '',
+        component: () => import("@/components/home/record.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: 'setting',
+        component: () => import("@/components/home/setting.vue"),
+        meta: { requiresAuth: true },
+      }
+    ]
   },
   {
     path: "/login",
