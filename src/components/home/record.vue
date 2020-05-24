@@ -150,6 +150,18 @@ export default class HomeRecord extends Vue {
           this.records[doc.id] = doc.data();
         });
       });
+
+    firebase
+      .firestore()
+      .collection("users")
+      .doc(user.uid)
+      .onSnapshot(documentSnapshot => {
+        const data = documentSnapshot.data();
+        console.info(data);
+        if(data){
+          localStorage.groupid = data.groupid;
+        }
+      });
   }
 
   private dateformat(date: firebase.firestore.Timestamp) {

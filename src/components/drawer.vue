@@ -21,6 +21,8 @@
 
 <script lang="ts">
 import { Component, Prop ,Vue } from "vue-property-decorator";
+import firebase from "firebase";
+import store from "@/store";
 
 @Component
 export default class Drawer extends Vue {
@@ -29,8 +31,10 @@ export default class Drawer extends Vue {
   private drawer? = null;
 
   private items = [
-          { title: 'Home', icon: 'dashboard' },
+          { title: 'Home', icon: 'view_list' },
+          { title: 'Board', icon: 'dashboard'},
           { title: 'Setting', icon: 'settings' },
+          { title: 'Logout' , icon: 'logout'},
         ];
 
   get ctrl(){
@@ -46,6 +50,19 @@ export default class Drawer extends Vue {
       this.$router.push("/");
     }else if(title === 'Setting'){
       this.$router.push("/setting");
+    }else if(title === 'Board'){
+      this.$router.push("/board");
+    }else if(title === 'Logout'){
+      firebase.auth().signOut().then(()=>{
+        console.info("ログアウトしました");
+        store.commit('onAuthStateChanged', null);
+        store.commit('onUserStatusChanged', false);
+        localStorage.removeItem("groupid");
+        this.$router.push('/login')
+      })
+      .catch( (error)=>{
+        console.log(`ログアウト時にエラーが発生しました (${error})`);
+      });
     }
   }
 

@@ -21,7 +21,6 @@
             <v-text-field
               v-model="groupid"
               :counter="20"
-              :rules="nameRules"
               label="Group"
               required
             ></v-text-field>
@@ -45,7 +44,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
-// import { Record } from "@/types/Record";
+import { Users } from "@/types/Users";
 
 import store from "@/store";
 
@@ -55,7 +54,26 @@ import firebase from "firebase";
 @Component
 export default class HomeSetting extends Vue {
 
+  private valid? = null;
   private groupid = "";
+
+  private user: Users = {};
+
+  private created() {
+    const user = store.getters.user;
+    firebase
+      .firestore()
+      .collection("users")
+      .doc(user.uid)
+      .get()
+      .then( (documentSnapshot) => {
+        const data = documentSnapshot.data();
+        if(data){
+          this.user = data;
+          this.groupid = this.user.groupid? this.user.groupid : "";
+        }
+      })
+  }
   
   private create() {
     const user = store.getters.user;
@@ -79,7 +97,22 @@ export default class HomeSetting extends Vue {
           .catch(function(error) {
             console.error("Error adding document: ", error);
           });
+
+        firebase
+          .firestore()
+          .collection("groups")
+          .doc(documentSnapshot.id)
+          .collection("status")
+          .doc(user.uid)
+          .set(
+            { name: user.displayName },
+            { merge: true }
+          )
+          .catch(function(error) {
+            console.error("Error adding document: ", error);
+          });
         this.groupid = documentSnapshot.id;
+        localStorage.groupid = this.groupid;
       })
       .catch(function(error) {
         console.error("Error adding document: ", error);
@@ -99,6 +132,21 @@ export default class HomeSetting extends Vue {
       .catch(function(error) {
         console.error("Error adding document: ", error);
       });
+
+    firebase
+      .firestore()
+      .collection("groups")
+      .doc(this.groupid)
+      .collection("status")
+      .doc(user.uid)
+      .set(
+        { name: user.displayName },
+        { merge: true }
+      )
+      .catch(function(error) {
+        console.error("Error adding document: ", error);
+      });
+    localStorage.groupid = this.groupid;
   }
 }
 </script>

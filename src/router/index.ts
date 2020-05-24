@@ -4,9 +4,6 @@ import Firebase from "firebase";
 
 import store from "../store";
 import Home from '../views/Home.vue'
-
-
-
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
@@ -24,6 +21,11 @@ const routes: Array<RouteConfig> = [
       {
         path: 'setting',
         component: () => import("@/components/home/setting.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: 'board',
+        component: () => import("@/components/home/board.vue"),
         meta: { requiresAuth: true },
       }
     ]
