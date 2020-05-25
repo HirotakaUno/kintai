@@ -1,15 +1,14 @@
 <template>
   <v-content>
     <v-container>
-      <v-alert
-        v-model="alert"
-        dismissible
-        color="cyan"
-        border="left"
-        elevation="2"
-        colored-border
-        icon="notifications"
-      >{{ alertmsg }}</v-alert>
+
+        <v-snackbar
+          v-model="alert"
+          color="cyan"
+          top
+          :timeout="3000"
+        >{{ alertmsg }}</v-snackbar>
+
       <v-card class="mx-auto">
         <v-simple-table>
           <template v-slot:default>
@@ -55,7 +54,7 @@
                     <template v-slot:activator="{ on }">
                       <v-text-field
                         v-model="date"
-                        label="Picker in dialog"
+                        label="日付"
                         prepend-icon="event"
                         readonly
                         v-on="on"
@@ -79,7 +78,7 @@
                     <template v-slot:activator="{ on }">
                       <v-text-field
                         v-model="time"
-                        label="Picker in dialog"
+                        label="時間"
                         prepend-icon="access_time"
                         readonly
                         v-on="on"
@@ -125,7 +124,7 @@ export default class HomeRecord extends Vue {
   private alert = false;
   private alertmsg = "";
 
-  private items = ["出社", "退社"];
+  private items = ["出社", "外出" , "休憩" , "退社"];
 
   private records: { [key: string]: Record } = {};
 
@@ -187,13 +186,21 @@ export default class HomeRecord extends Vue {
       .then(() => {
         this.alertmsg = "記録しました。";
         this.alert = true;
-        setTimeout(() => {
-          this.alert = false;
-        }, 3000);
       })
       .catch(function(error) {
         console.error("Error adding document: ", error);
       });
+
+    if(localStorage.groupid){
+      const groupid = localStorage.groupid
+      firebase
+        .firestore()
+        .collection("groups")
+        .doc(groupid)
+        .collection("status")
+        .doc(user.uid)
+        .set( { status: this.type },{ merge: true })
+      }
   }
 }
 </script>

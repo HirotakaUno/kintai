@@ -4,7 +4,7 @@
       <v-row dense>
         <template v-for=" ( value , key ) in items">
           <v-col :key="key">
-            <v-card class="mx-auto" max-width="400" :color="color(key)" @click="status(key)" >
+            <v-card class="mx-auto" max-width="400" :color="color(key)" >
               <v-card-title>
                 {{ value.name }}
               </v-card-title>
@@ -23,8 +23,6 @@
 import { Component, Vue } from "vue-property-decorator";
 
 import { Status } from "@/types/Status";
-
-import store from "@/store";
 
 import firebase from "firebase";
 // import moment from "moment";
@@ -48,36 +46,6 @@ export default class HomeBoard extends Vue {
           this.items[doc.id] = doc.data();
       });
     });  
-  }
-
-  private status(id: string){
-    const user = store.getters.user;
-    if(user.uid != id){
-      return;
-    }
-    let status = "出社";
-    if(this.items[id].status && this.items[id].status === "出社"){
-      status = "退社";
-    }
-
-    const groupid = localStorage.groupid;
-
-    console.log(id);
-    firebase
-      .firestore()
-      .collection("groups")
-      .doc(groupid)
-      .collection("status")
-      .doc(id)
-      .set( { status: status },{ merge: true })
-    
-    const record = { type: status , date: firebase.firestore.Timestamp.now() };
-    firebase
-      .firestore()
-      .collection("users")
-      .doc(user.uid)
-      .collection("record")
-      .add(record)
   }
 
   private color(id: string){
